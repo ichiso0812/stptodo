@@ -1,16 +1,16 @@
 {
   "name": "todo_list",
   "version": "1.0.0",
+  "private": true,
   "description": "vuejs rails api",
   "author": "Luka Ouddanne",
-  "private": true,
   "scripts": {
+    "build": "node build/build.js",
+    "lint": "eslint --ext .js,.vue src test/unit",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
-    "lint": "eslint --ext .js,.vue src test/unit",
-    "build": "node build/build.js"
+    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
   },
   "dependencies": {
     "vue": "^2.5.2",
@@ -31,6 +31,8 @@
     "babel-preset-stage-2": "^6.22.0",
     "chai": "^4.1.2",
     "chalk": "^2.0.1",
+    "coffee-loader": "^1.0.0",
+    "coffeescript": ">= 2.0.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.1",
     "css-loader": "^0.28.0",
@@ -76,6 +78,7 @@
     "sinon-chai": "^2.8.0",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
+    "vue-cli-plugin-coffee": "~0.5.13",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
@@ -84,13 +87,13 @@
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
-  "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  }
 }

@@ -2,30 +2,21 @@
     <a @click.prevent="sign_out" class="lol" href="#">Sign out</a>
 </template>
 
-<script >
-    export default {
-        name: "Header",
-        created() {
-            this.signedIn()
-        },
-        methods: {
-            setError(error, text){
-                this.error = (error.response && error.response.data && error.response.data.error) || text
-            },
-            signedIn(){
-                return localStorage.signedIn
-            },
-            sign_out(){
-                this.$http.secured.delete("/signin")
-                    .then(response => {
-                        delete localStorage.csrf
-                        delete localStorage.signedIn
-                        this.$router.replace("/")
-                    })
-                    .catch(error=>this.setError(error, "Something went wrong"))
-            }
-        }
-    }
+<script lang="coffee">
+export default
+    name: "Header",
+    created: -> this.signedIn,
+    methods:
+        setError: (error, text) -> this.error = (error.response && error.response.data && error.response.data.error) || text,
+        signedIn: -> return localStorage.signedIn
+        sign_out: -> 
+            this.$http.secured.delete("/signin")
+            .then((response) -> 
+                delete localStorage.csrf
+                delete localStorage.signedIn
+                this.$router.replace("/")
+            )
+            .catch((error) -> this.setError(error, "Something went wrong"))
 </script>
 
 <style lang="sass" scoped>
