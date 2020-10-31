@@ -2,3 +2,4 @@ api/tmp/pids/server.pid
 api/db/development.sqlite3
 api/db/development.sqlite3
 api/log/development.log
+api/log/development.log
