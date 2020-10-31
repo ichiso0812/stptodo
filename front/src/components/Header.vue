@@ -1,8 +1,8 @@
 <template>
-    <a @click.prevent="sign_out" href="#">Sign out</a>
+    <a @click.prevent="sign_out" class="lol" href="#">Sign out</a>
 </template>
 
-<script>
+<script >
     export default {
         name: "Header",
         created() {
@@ -28,6 +28,11 @@
     }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+/* NEW_PROJECT: pour uriliser sass, j'ai passé sass-loader en version 7 dans package.json*/
+.lol
+    color: red
+    font-size: 50px
+    
 
-</style>
+</style>    
