@@ -21,52 +21,36 @@
     </form>
 </template>
 
-<script>
-export default {
-    name: "signup",
-    data () {
-        return {
-            email: "",
-            password: "",
-            password_confirm: "",
-            error: "",
-        }
-    },
-    created() {
-        this.checkSignedIn()
-    },
-    updated() {
-        this.checkSignedIn()
-    },
-    methods: {
-        signup() {
-            //see routes.rb
-            this.$http.plain.post('/signup', {email: this.email, password: this.password, password_confirmation: this.password_confirm})
-                .then(response => {this.signinSuccessful(response)})
-                .catch(error => this.signupFailed(error))
-        },
-        signinSuccessful(response) {
-            if (!response.data.csrf) {
-                this.signupFailed(response)
+<script lang="coffee">
+export default
+    name: "Signup",
+    data: 
+        email: "",
+        password: "",
+        password_confirm: "",
+        error: ""
+    created: -> this.check_signed_in,
+    updated: -> this.check_signed_in,
+    methods:
+        signup: -> 
+            #see routes.rb
+            this.$http.plain.post("/signup", {email: this.email, password: this.password, password_confirmation: this.password_confirm})
+            .then((response) => this.sign_in_successful(response))
+            .catch((error) => this.sign_up_failed(error))
+        sign_in_successful: (response) ->
+            if not response.data.csrf
+                this.sign_up_failed response
                 return
-            }
             localStorage.csrf = response.data.csrf
             localStorage.signedIn = true
             this.error = ""
             this.$router.replace("/projects")
-        },
-        signupFailed(error) {
-            this.error = (error.response && error.response.data && error.response.data.error) || "FILS DE PUTE"
+        sign_up_failed: (error) ->
+            this.error = (error.response && error.response.data && error.response.data.error) || ""
             delete localStorage.csrf
             delete localStorage.signedIn
-        },
-        checkSignedIn(){
-            if (localStorage.signedIn) {
-                this.$router.replace("/projects")
-            }
-        }
-    }
-}
+        check_signed_in: () ->
+            this.$router.replace("/projects") if localStorage.signedIn
 </script>
 
 <style scoped>

@@ -19,59 +19,36 @@
 
 </template>
 
-<script>
-export default {
-    name: "signin",
-    data () {
-        return {
-            email: "",
-            password: "",
-            error: "",
-        }
-    },
-    created() {
-        this.checkSignedIn()
-    },
-    updated() {
-        this.checkSignedIn()
-    },
-    methods: {
-        signin() {
-            //see routes.rb
+<script lang="coffee">
+export default
+    name: "Signin",
+    data: 
+        email: "",
+        password: "",
+        error: ""
+    created: -> this.check_signed_in,
+    updated: -> this.check_signed_in,
+    methods:
+        signin: -> #see routes.rb
             this.$http.plain.post("/signin", {email: this.email, password: this.password})
-                .then(response=> this.signinSuccessful(response))
-                .catch(error => this.signinFailed(error))
-        },
-        signinSuccessful(response) {
-            console.log("hellot")
-            console.log(response.data[0].csrf)
-            if (!response.data[0].csrf) {
-                this.signinFailed(response)
+            .then((response) => this.sign_in_successful(response))
+            .catch((error) => this.sign_in_failed(error))
+        sign_in_successful: (response) ->
+            if not response.data.csrf
+                this.sign_in_failed response
                 return
-            }
             localStorage.csrf = response.data.csrf
             localStorage.signedIn = true
             this.error = ""
-            console.log("hello")
             this.$router.replace("/projects")
-        },
-        signinFailed(error) {
-
+        sign_in_failed: (error) ->
             this.error = (error.response && error.response.data && error.response.data.error) || ""
             delete localStorage.csrf
             delete localStorage.signedIn
-        },
-        checkSignedIn(){
-            if (localStorage.signedIn) {
-                this.$router.replace("/projects")
-            }
-        }
-    }
-}
-
+        check_signed_in: () ->
+            this.$router.replace("/projects") if localStorage.signedIn
 </script>
 
 <style  scoped>
-
 
 </style>
